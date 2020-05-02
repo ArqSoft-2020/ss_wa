@@ -1,0 +1,109 @@
+import React, { Component } from "react";
+import {Link} from 'react-router-dom';
+import Grid from '@material-ui/core/Grid';
+import logoNavbar from './assets/logoNavbar.png';
+import bg_image from './assets/bg_mainPage.jpg';
+import { FiUser } from 'react-icons/fi';
+import { IconContext } from "react-icons";
+import './App.css';
+
+class MainPage extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            userLogin: false,
+        };
+
+        this.handleClick = this.handleClick.bind(this);
+        this.setNavbarButtons = this.setNavbarButtons.bind(this);
+        this.handleToUser = this.handleToUser.bind(this);
+    }
+
+    handleClick() {
+        this.LinkElement.click();
+    }
+
+    handleToUser(){
+        this.UserLinkElement.click();
+    }
+
+    setNavbarButtons(){
+        if(this.state.userLogin){
+            return(<div className="navbarButtons_home">
+                        <IconContext.Provider value={{ size: "2.5em ", className: 'Nav-icons_home' }}>
+                            <div onClick={this.handleToUser}>
+                                <FiUser/>
+                            </div>
+                            <Link to={{
+                                pathname: '/User',
+                                state: {
+                                    data: 'Data from mainpage to user' 
+                                }}}
+                                ref={Link => this.UserLinkElement = Link}>
+                            </Link>
+                        </IconContext.Provider>
+                    </div>);
+        }else{
+            return(<div className="navbarButtons_home">
+                        <Grid container
+                            spacing={2}
+                            direction="row">
+                            <Grid item xs={6}>
+                                <div className="navbar_link_home">
+                                    <a href="/Login"> Inicia Sesion </a>
+                                </div>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <div className="navbar_link_home">
+                                    <a href="/Register"> Registrate </a>
+                                </div>
+                            </Grid>
+                        </Grid>
+                    </div>);
+        }
+    }
+
+    render(){
+        return (
+            <div className="App">
+                <div className="bg_image">
+                    <img src={bg_image}></img>
+                </div>
+                <div className="App_overlay">
+                    <div className="Navbar_home">
+                        <div className="logo_home">
+                            <a href="/"><img src={logoNavbar}></img></a> 
+                        </div>
+                        {this.setNavbarButtons()}
+                    </div>
+                    <div className="App_content">
+                        <h1>Bienvenido a Hanged Drawn</h1>
+                        <div className="main_buttons_container">
+                            <Grid container
+                                spacing={6}
+                                direction="row">
+                                <Grid item xs={6}>
+                                    <div className="main_btn_container">
+                                        <div className="main_btn blue" onClick={() => {}}>
+                                            <p>Unirse a una sala</p>
+                                        </div>
+                                    </div>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <div className="main_btn_container">
+                                        <div className="main_btn white" onClick={() => {}}>
+                                            <p>Crear una sala</p>
+                                        </div>
+                                    </div>
+                                </Grid>
+                            </Grid>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+}
+
+export default MainPage;

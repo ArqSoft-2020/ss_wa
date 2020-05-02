@@ -1,8 +1,21 @@
+@font-face {
+  font-family: 'ProductSans';
+  src: local('ProductSans'), url(./fonts/Product\ Sans\ Regular.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'ProductSans_bold';
+  src: local('ProductSans_bold'), url(./fonts/Product\ Sans\ Bold.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'ProductSans_italic';
+  src: local('ProductSans_italic'), url(./fonts/Product\ Sans\ Italic.ttf) format('truetype');
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'ProductSans';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -10,4 +23,12 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+bold {
+  font-family: 'ProductSans_bold';
+}
+
+italic {
+  font-family: 'ProductSans_italic';
 }

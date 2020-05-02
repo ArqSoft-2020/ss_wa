@@ -1,0 +1,114 @@
+:root {
+    --primary: #03A9F4;
+}
+
+.Login {
+    text-align: center;
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+}
+
+.logo_login{
+    width: 192px;
+    height: auto;
+}
+
+.title{
+    margin-top: 16px !important;
+}
+
+.text_field_container {
+    width: 18em;
+    height: auto;
+}
+
+.text_field_container_big {
+    width: 22em;
+    height: auto;
+}
+
+.MuiInputBase-input{
+    color: white !important;
+    text-align: start;
+}
+
+.submit_btn_container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.submit_btn{
+    width: 90%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary);
+    color: white;
+    border-radius: 5px;
+    margin-top: 5vh;
+    padding: 0 !important;
+    transition: ease-in-out 0.18s;
+    cursor: pointer;
+}
+
+.submit_btn:hover {
+    width: 100%;
+}
+
+.submit_btn p{
+    font-size: 1.17rem;
+    margin: 12px 0 !important;
+}
+
+.login_link {
+    width: 100%;
+    text-align: center;
+    margin-top: 1vh;
+    color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.register_link {
+    margin-top: 5vh !important;
+}
+
+.login_link a {
+    transition-property: text-decoration-color;
+    transition-duration: 0.18s;
+    text-decoration-line: underline;
+    text-decoration-color: transparent;
+    font-weight: 400;
+    font-size: 0.95rem;
+    color: var(--primary);
+}
+
+.login_link a:hover {
+    text-decoration-color: var(--primary);
+}
+
+.login_link p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.95rem;
+    margin-right: 4px;
+}
+
+.MuiIconButton-root {
+    color: white !important ;
+}
+
+.MuiSelect-icon{
+    color: white !important;
+}

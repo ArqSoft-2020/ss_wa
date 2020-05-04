@@ -14,13 +14,59 @@
     color: white;
 }
 
+.image-upload>input {
+    display: none;
+}
+
+.image-upload img {
+    width: 20vh;
+    cursor: pointer;
+}
+
+.profilepic {
+    width: 20vh;
+    height: 20vh;
+    border-radius: 50%;
+    max-width: 100%;
+    overflow: hidden;
+    margin: 0 auto;
+    padding: 0;
+    position: relative;
+    margin-top: 4vh;
+    transition: all 0.18s ease-in-out;
+}
+
+.profilepic>.crop {
+    object-fit: cover;
+    position: absolute;
+    left: -100%;
+    right: -100%;
+    top: -100%;
+    bottom: -100%;
+    margin: auto;
+    min-height: 100%;
+    min-width: 100%;
+    display: block;
+    max-width: none !important;
+}
+
+.profilepic:hover {
+    opacity: 0.6;
+    transform: scale(1);
+}
+
 .logo_login{
     width: 192px;
     height: auto;
 }
 
 .title{
-    margin-top: 16px !important;
+    margin-top: 24px !important;
+}
+
+.text_field_container_big h6{
+    margin: 16px 0 !important;
+    font-weight: normal;
 }
 
 .text_field_container {
@@ -82,7 +128,7 @@
 }
 
 .register_link {
-    margin-top: 5vh !important;
+    margin-top: 2vh !important;
 }
 
 .login_link a {

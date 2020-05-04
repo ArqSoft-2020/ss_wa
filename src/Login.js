@@ -9,6 +9,18 @@ import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import logo from './assets/iconLogo256.png';
+import gql from 'graphql-tag';
+import { graphql } from 'react-apollo';
+
+const QueryLogin = gql`
+    query SubmitPost($input: PostInput!) {
+        submitPost(input: $input) {
+        id
+        }
+    }
+`
+
+
 
 class Login extends Component {
 
@@ -16,10 +28,12 @@ class Login extends Component {
         super(props);
         this.state = {
             userData: '',
-            email: '',
+            username: '',
             showPassword: false,
             password: '',
             error: false,
+            usernameError: false,
+            passwordError: false,
         };
 
         this.primaryColor = '#61dafb';
@@ -77,6 +91,7 @@ class Login extends Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.handleClickShowPassword = this.handleClickShowPassword.bind(this);
+        this.validateData = this.validateData.bind(this);
 
         this.handleMouseDownPassword = event => {
             event.preventDefault();
@@ -96,6 +111,28 @@ class Login extends Component {
         });
     }
 
+        validateData() {
+        var flag = true;
+        this.setState({ usernameError: false });
+        this.setState({ passwordError: false });
+
+		if (this.state.username == "") {
+			flag = false;
+			this.setState({ usernameError: true });
+		} else {
+			this.setState({ usernameError: false });
+		}
+
+		if (this.state.password.length < 8) {
+			flag = false;
+			this.setState({ passwordError: true });
+		} else {
+			this.setState({ passwordError: false });
+		}
+
+		return flag;
+	}
+
     render(){
         return(
             <div className="Login">
@@ -108,11 +145,13 @@ class Login extends Component {
                         variant="outlined"
                         margin="normal"
                         fullWidth
-                        id="email"
-                        label="Correo electronico"
-                        name="email"
-                        autoComplete="email"
+                        id="username"
+                        label="Nombre de usuario"
+                        name="username"
+                        autoComplete="username"
                         onChange={this.handleChange}
+                        error={this.state.usernameError && this.state.username.length === 0}
+                        helperText={this.state.usernameError && this.state.username.length === 0 ? "Este campo es obligatorio" : ""}
                     />
 
                     < this.StyledTextField
@@ -124,6 +163,8 @@ class Login extends Component {
                         id="password"
                         autoComplete="current-password"
                         type={this.state.showPassword ? 'text' : 'password'}
+                        error={this.state.passwordError && this.state.password.length < 8}
+                        helperText={this.state.passwordError && this.state.password.length < 8 ? "La contraseña debe tener mínimo 8 caracteres" : ""}
                         onChange={this.handleChange}
                         InputProps={{
                         endAdornment: (
@@ -140,7 +181,15 @@ class Login extends Component {
                     />
                 <div className="submit_btn_container">
                     <div className="submit_btn" onClick={() => {
-                        this.LinkElement.click();
+                        if(this.validateData()){
+                            let loginData = {
+                                username: this.state.username,
+                                password: this.state.password
+                            };
+                            console.log(loginData);
+                            
+                            this.LinkElement.click();
+                        }
                     }}>
                         <p>Iniciar sesion</p>
                     </div>

@@ -24,8 +24,11 @@ class Register extends Component {
         super(props);
         this.state = {
             userData: '',
+            profilephoto: "https://www.rogowaylaw.com/wp-content/uploads/Blank-Employee.jpg",
             email: '',
             username: '',
+            name: '',
+            lastname: '',
             showPassword: false,
             showConfirmPassword: false,
             password: '',
@@ -34,10 +37,11 @@ class Register extends Component {
             emailError: false,
             emailErrorText: "",
             usernameError: false,
+            nameError: false,
+            lastnameError: false,
             passwordError: false,
             signUpError: false,
         };
-
 
         this.primaryColor = '#61dafb';
         this.theme = createMuiTheme({
@@ -128,8 +132,9 @@ class Register extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleCountryChange = this.handleCountryChange.bind(this);
         this.handleClickShowPassword = this.handleClickShowPassword.bind(this);
-
+        this.onImageChange = this.onImageChange.bind(this);
         this.handleClickShowPassword = this.handleClickShowPassword.bind(this);
+        this.validateData = this.validateData.bind(this);
 
         this.handleMouseDownPassword = event => {
             event.preventDefault();
@@ -141,6 +146,18 @@ class Register extends Component {
             event.preventDefault();
         };
 
+    }
+
+    onImageChange(event){
+
+        if (event.target.files && event.target.files[0]) {
+            let reader = new FileReader();
+            reader.onload = (e) => {
+                this.setState({ profilephoto: e.target.result });
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+        this.setState({ file: event.target.files[0] });
     }
 
     handleClickShowPassword() {
@@ -169,7 +186,10 @@ class Register extends Component {
     }
     
     validateData() {
-		var flag = true;
+        var flag = true;
+        this.setState({ emailError: false });
+        this.setState({ usernameError: false });
+        this.setState({ passwordError: false });
 		var mailformat = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
 		if (this.state.email == "") {
@@ -193,7 +213,7 @@ class Register extends Component {
 			this.setState({ usernameError: false });
 		}
 
-		if (this.state.password.length < 7) {
+		if (this.state.password.length < 8) {
 			flag = false;
 			this.setState({ passwordError: true });
 		} else {
@@ -208,10 +228,18 @@ class Register extends Component {
         return(
                 <div className="Login">
                     <div className="text_field_container_big">
-                        <center>
-                            <img className="logo_login" src= {logo} alt="logo"/>
-                        </center>
                         <h3 className="title"> Registrate </h3>
+                        <div>
+                            <div className="image-upload">
+                                < label htmlFor="file-input" >
+                                    <div className="profilepic">
+                                        <img id="target" className="crop" src={this.state.profilephoto} ></img>
+                                    </div>
+                                </label>
+                                <input id="file-input" name="profilePhoto" type="file" onChange={this.onImageChange} />
+                            </div>
+                            <h6>Sube una foto para tu avatar</h6>
+                        </div>
                         <this.StyledTextField
                             variant="outlined"
                             margin="normal"
@@ -221,21 +249,21 @@ class Register extends Component {
                             name="email"
                             autoComplete="email"
                             onChange={this.handleChange}
-                            error={this.state.emailError && this.state.email == ""}
-                            helperText={this.state.emailError && this.state.email == "" ? this.state.emailErrorText : ""}
+                            error={this.state.emailError}
+                            helperText={this.state.emailError ? this.state.emailErrorText : ""}
                         />
 
                         <this.StyledTextField
                             variant="outlined"
                             margin="normal"
                             fullWidth
-                            id="username"
-                            label="Nombre de Usuario"
+                            id = "username"
+                            label="Nombre de Usuario*"
                             name="username"
                             autoComplete="username"
                             onChange={this.handleChange}
-                            error={this.state.usernameError && this.state.username == ""}
-                            helperText={this.state.usernameError && this.state.username == "" ? "Este campo es obligatorio" : ""}
+                            error={this.state.usernameError  && this.state.username.length === 0}
+                            helperText={this.state.usernameError  && this.state.username.length === 0 ? "Este campo es obligatorio" : ""}
                         />
 
                         <Grid container
@@ -249,28 +277,13 @@ class Register extends Component {
                                     variant="outlined"
                                     margin="normal"
                                     fullWidth
-                                    name="password"
-                                    label="Contraseña*"
-                                    id="password"
-                                    autoComplete="current-password"
-                                    type={this.state.showPassword ? 'text' : 'password'}
-                                    value={this.state.password}
+                                    id="name"
+                                    label="Nombre"
+                                    name="name"
+                                    autoComplete="name"
                                     onChange={this.handleChange}
-                                    error={this.state.passwordError && this.state.password.length < 7}
-                                    helperText={this.state.passwordError && this.state.password.length < 7 ? "La contraseña debe tener mínimo 7 caracteres" : ""}
-                                    InputProps={{
-                                        endAdornment: (
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                    color = "#FFFFFF"
-                                                    aria-label="toggle password visibility"
-                                                    onClick={this.handleClickShowPassword}
-                                                    onMouseDown={this.handleMouseDownPassword}>
-                                                    {(this.state.showPassword) ? (<VisibilityOff />) : (<Visibility />)}
-                                                </IconButton>
-                                            </InputAdornment>
-                                        ),
-                                    }}
+                                    error={this.state.nameError}
+                                    helperText={this.state.nameError ? "Este campo es obligatorio" : ""}
                                 />
                             </Grid>
                             <Grid item xs={6}>
@@ -278,31 +291,13 @@ class Register extends Component {
                                     variant="outlined"
                                     margin="normal"
                                     fullWidth
-                                    name="confirmPassword"
-                                    label="Confirmar contraseña*"
-                                    id="confirmPassword"
-                                    autoComplete="confirm password"
-                                    type={this.state.showConfirmPassword ? 'text' : 'password'}
-                                    value={this.state.confirmPassword}
+                                    id="lastname"
+                                    label="Apellido"
+                                    name = "lastname"
+                                    autoComplete="lastname"
                                     onChange={this.handleChange}
-                                    error={
-                                        this.state.confirmPassword !== this.state.password
-                                    }
-                                    helperText={
-                                        this.state.confirmPassword !== this.state.password ? "Las contraseñas deben coincidir" : ""
-                                    }
-                                    InputProps={{
-                                        endAdornment: (
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                    aria-label="toggle password visibility"
-                                                    onClick={this.handleClickShowConfirmPassword}
-                                                    onMouseDown={this.handleMouseDownConfirmPassword}>
-                                                    {(this.state.showConfirmPassword) ? (<VisibilityOff />) : (<Visibility />)}
-                                                </IconButton>
-                                            </InputAdornment>
-                                        ),
-                                    }}
+                                    error={this.state.lastnameError}
+                                    helperText={this.state.lastnameError ? "Este campo es obligatorio" : ""}
                                 />
                             </Grid>
                         </Grid>
@@ -358,9 +353,91 @@ class Register extends Component {
 
                             </div>
                         </ThemeProvider>
+
+                        <Grid container
+                            spacing={2}
+                            direction="row"
+                            justify="flex-end"
+                            alignItems="flex-end"
+                            wrap="nowrap" >
+                            <Grid item xs={6}>
+                                <this.StyledTextField
+                                    variant="outlined"
+                                    margin="normal"
+                                    fullWidth
+                                    name="password"
+                                    label="Contraseña*"
+                                    id="password"
+                                    autoComplete="current-password"
+                                    type={this.state.showPassword ? 'text' : 'password'}
+                                    value={this.state.password}
+                                    onChange={this.handleChange}
+                                    error={this.state.passwordError && this.state.password.length < 8}
+                                    helperText={this.state.passwordError && this.state.password.length < 8 ? "La contraseña debe tener mínimo 8 caracteres" : ""}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    color = "#FFFFFF"
+                                                    aria-label="toggle password visibility"
+                                                    onClick={this.handleClickShowPassword}
+                                                    onMouseDown={this.handleMouseDownPassword}>
+                                                    {(this.state.showPassword) ? (<VisibilityOff />) : (<Visibility />)}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <this.StyledTextField
+                                    variant="outlined"
+                                    margin="normal"
+                                    fullWidth
+                                    name="confirmPassword"
+                                    label="Confirmar contraseña*"
+                                    id="confirmPassword"
+                                    autoComplete="confirm password"
+                                    type={this.state.showConfirmPassword ? 'text' : 'password'}
+                                    value={this.state.confirmPassword}
+                                    onChange={this.handleChange}
+                                    error={
+                                        this.state.confirmPassword !== this.state.password
+                                    }
+                                    helperText={
+                                        this.state.confirmPassword !== this.state.password ? "Las contraseñas deben coincidir" : ""
+                                    }
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={this.handleClickShowConfirmPassword}
+                                                    onMouseDown={this.handleMouseDownConfirmPassword}>
+                                                    {(this.state.showConfirmPassword) ? (<VisibilityOff />) : (<Visibility />)}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
+                            </Grid>
+                        </Grid>
+
                         <div className="submit_btn_container">
                             <div className="submit_btn" onClick={() => {
-                                this.LinkElement.click();
+                                if (this.state.password === this.state.confirmPassword && this.validateData()){
+                                    let registerData = {
+                                        profilePhoto: this.state.profilephoto,
+                                        email: this.state.email,
+                                        username: this.state.username,
+                                        name: this.state.name,
+                                        lastname: this.state.lastname,
+                                        password: this.state.password,
+                                        country: this.state.country,
+                                    }
+                                    console.log(registerData);
+                                    this.LinkElement.click();
+                                }
                             }}>
                                 <p>Terminar registro</p>
                             </div>
@@ -371,14 +448,12 @@ class Register extends Component {
                                 }}}
                                 ref={Link => this.LinkElement = Link}>
                             </Link>
-                        </div>
-                        <Box mt={5}>
                             <div className="login_link register_link">
                                 <p className="login_text">
                                     ¿Ya tienes una cuenta? <a href="/Login" > Inicia sesión </a>
                                 </p>
                             </div>
-                        </Box>
+                        </div>
                     </div>
             </div>
 		);

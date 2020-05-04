@@ -187,7 +187,7 @@ class Login extends Component {
                                 password: this.state.password
                             };
                             console.log(loginData);
-                            
+                            //////////////////////////////////////////////////////////////AQUI VA LA PETICION AL GRAPHQL
                             this.LinkElement.click();
                         }
                     }}>

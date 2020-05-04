@@ -436,6 +436,7 @@ class Register extends Component {
                                         country: this.state.country,
                                     }
                                     console.log(registerData);
+                                    //////////////////////////////////////////////////////////////AQUI VA LA PETICION AL GRAPHQL
                                     this.LinkElement.click();
                                 }
                             }}>

@@ -9,18 +9,9 @@ import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import logo from './assets/iconLogo256.png';
-import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
-
-const QueryLogin = gql`
-    query SubmitPost($input: PostInput!) {
-        submitPost(input: $input) {
-        id
-        }
-    }
-`
-
-
+import { FaExclamationCircle } from 'react-icons/fa';
+import { IconContext } from "react-icons";
+import axios from 'axios';
 
 class Login extends Component {
 
@@ -31,7 +22,8 @@ class Login extends Component {
             username: '',
             showPassword: false,
             password: '',
-            error: false,
+            error: true,
+            error_msg: "test",
             usernameError: false,
             passwordError: false,
         };
@@ -140,6 +132,16 @@ class Login extends Component {
                     <img className="logo_login" src= {logo} alt="logo"/>
                 </center>
                 <h3 className="title">Inicia Sesion</h3>
+                <div className="error_msg" style={this.state.error ? {} : { display: 'none' }}>
+                    <div className="help">
+                        <IconContext.Provider value={{ size: "1.4em ", className: 'help_icon'}}>
+                            <div>
+                                <FaExclamationCircle/>
+                            </div>
+                        </IconContext.Provider>
+                    </div>
+                    <span>{this.state.error_msg}</span>
+                </div>
                 <div className="text_field_container">
                     < this.StyledTextField
                         variant="outlined"
@@ -187,8 +189,40 @@ class Login extends Component {
                                 password: this.state.password
                             };
                             console.log(loginData);
-                            //////////////////////////////////////////////////////////////AQUI VA LA PETICION AL GRAPHQL
-                            this.LinkElement.click();
+                            axios({
+                                url: 'http://ec2-3-210-210-169.compute-1.amazonaws.com:5000/graphql',
+                                method: 'post',
+                                data: {
+                                    query: `
+                                        query{
+                                            Login(model: {
+                                                    UserName: "${loginData.username}",
+                                                    Password: "${loginData.password}}"
+                                                }) {
+                                                error, response, token, user{ id, userName, name, lastName, email, country, picture, imageBytes, totalGames, wonGames, lostGames }
+                                            }
+                                        }`
+                                }
+                            }).then((result) => {
+                                console.log(result)
+                                if(result.data.data.Login.error === true){
+                                    this.setState({
+                                        error: true,
+                                        error_msg: result.data.data.Login.response
+                                    });
+                                }
+                                else{
+                                   console.log(result.data);
+                                   this.LinkElement.click();
+                                }
+
+                            }, (error) => {
+                                console.log(error);
+                                this.setState({
+                                    error: true,
+                                    error_msg: "Ha ocurrido un error con el servidor. Intentelo nuevamente"
+                                });
+                            });
                         }
                     }}>
                         <p>Iniciar sesion</p>

@@ -15,6 +15,7 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import MenuItem from '@material-ui/core/MenuItem';
 import { Link } from 'react-router-dom';
 import logo from './assets/iconLogo256.png';
+import axios from 'axios';
 
 
 
@@ -436,7 +437,6 @@ class Register extends Component {
                                         country: this.state.country,
                                     }
                                     console.log(registerData);
-                                    //////////////////////////////////////////////////////////////AQUI VA LA PETICION AL GRAPHQL
                                     this.LinkElement.click();
                                 }
                             }}>

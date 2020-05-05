@@ -9,6 +9,8 @@
   height: 100vh;
   max-height: 100vh !important;
   width: 100vw;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .bg_image{

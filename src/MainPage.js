@@ -12,12 +12,23 @@ class MainPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            userData: null,
             userLogin: false,
         };
 
         this.handleClick = this.handleClick.bind(this);
         this.setNavbarButtons = this.setNavbarButtons.bind(this);
         this.handleToUser = this.handleToUser.bind(this);
+    }
+
+    componentDidMount(){
+        if (this.props.location.state !== undefined) {
+            console.log("in");
+            this.setState({
+                userData: this.props.location.state.data,
+                userLogin: true
+            });
+        }
     }
 
     handleClick() {
@@ -38,7 +49,7 @@ class MainPage extends Component {
                             <Link to={{
                                 pathname: '/User',
                                 state: {
-                                    data: 'Data from mainpage to user' 
+                                    data: this.state.userData
                                 }}}
                                 ref={Link => this.UserLinkElement = Link}>
                             </Link>
@@ -65,6 +76,7 @@ class MainPage extends Component {
     }
 
     render(){
+        console.log(this.state.userData);
         return (
             <div className="App">
                 <div className="bg_image">

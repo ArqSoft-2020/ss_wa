@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import './Login.css';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import { withStyles, createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import FormControl from '@material-ui/core/FormControl';
@@ -15,6 +14,8 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import MenuItem from '@material-ui/core/MenuItem';
 import { Link } from 'react-router-dom';
 import logo from './assets/iconLogo256.png';
+import { FaExclamationCircle } from 'react-icons/fa';
+import { IconContext } from "react-icons";
 import axios from 'axios';
 
 
@@ -25,7 +26,7 @@ class Register extends Component {
         super(props);
         this.state = {
             userData: '',
-            profilephoto: "https://www.rogowaylaw.com/wp-content/uploads/Blank-Employee.jpg",
+            profilephoto: "https://www.materialui.co/materialIcons/content/add_circle_grey_192x192.png",
             email: '',
             username: '',
             name: '',
@@ -42,6 +43,10 @@ class Register extends Component {
             lastnameError: false,
             passwordError: false,
             signUpError: false,
+            error: false,
+            error_msg: '',
+            uri: '',
+            sentEmail: ''
         };
 
         this.primaryColor = '#61dafb';
@@ -150,7 +155,6 @@ class Register extends Component {
     }
 
     onImageChange(event){
-
         if (event.target.files && event.target.files[0]) {
             let reader = new FileReader();
             reader.onload = (e) => {
@@ -158,13 +162,21 @@ class Register extends Component {
             };
             reader.readAsDataURL(event.target.files[0]);
         }
-        this.setState({ file: event.target.files[0] });
+        this.setState({ file: this.generateGuid() + event.target.files[0].name });
     }
 
     handleClickShowPassword() {
         this.setState({
             showPassword: !this.state.showPassword
         });
+    }
+
+    generateGuid()
+    {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+          }); 
     }
 
     handleClickShowConfirmPassword() {
@@ -230,6 +242,16 @@ class Register extends Component {
                 <div className="Login">
                     <div className="text_field_container_big">
                         <h3 className="title"> Registrate </h3>
+                        <div className="error_msg" style={this.state.error ? {} : { display: 'none' }}>
+                            <div className="help">
+                                <IconContext.Provider value={{ size: "2rem ", className: 'help_icon'}}>
+                                    <div>
+                                        <FaExclamationCircle/>
+                                    </div>
+                                </IconContext.Provider>
+                            </div>
+                            <span>{this.state.error_msg}</span>
+                        </div>
                         <div>
                             <div className="image-upload">
                                 < label htmlFor="file-input" >
@@ -347,8 +369,6 @@ class Register extends Component {
                                         <MenuItem value="Surinam">Surinam</MenuItem>
                                         <MenuItem value="Uruguay">Uruguay</MenuItem>
                                         <MenuItem value="Venezuela">Venezuela</MenuItem>
-
-                                        
                                     </Select>
                                 </this.StyledFormControl>
 
@@ -428,25 +448,102 @@ class Register extends Component {
                             <div className="submit_btn" onClick={() => {
                                 if (this.state.password === this.state.confirmPassword && this.validateData()){
                                     let registerData = {
-                                        profilePhoto: this.state.profilephoto,
+                                        profilePhoto: this.state.profilephoto.split(",")[1],
                                         email: this.state.email,
                                         username: this.state.username,
                                         name: this.state.name,
                                         lastname: this.state.lastname,
                                         password: this.state.password,
                                         country: this.state.country,
+                                        file: this.state.file
                                     }
                                     console.log(registerData);
-                                    this.LinkElement.click();
+
+                                    axios({
+                                        url: 'http://ec2-3-210-210-169.compute-1.amazonaws.com:5000/graphql',
+                                        method: 'post',
+                                        data: {
+                                            query: `
+                                            query {
+                                                UploadFile(model:{File:"${registerData.profilePhoto}", FileName: "${registerData.file}"}){
+                                                  response, error, uri
+                                                }
+                                              }`
+                                        }
+                                    }).then((result) => {
+                                        console.log("imagen")
+                                        console.log(result)
+
+                                        if(result.data.data !== null && result.data.data.UploadFile.error !== true)
+                                        {
+                                            axios({
+                                                url: 'http://ec2-3-210-210-169.compute-1.amazonaws.com:5000/graphql',
+                                                method: 'post',
+                                                data: {
+                                                    query: `
+                                                    mutation {
+                                                        Register(model:{Picture: "${result.data.data.UploadFile.uri}", 
+                                                            Email : "${registerData.email}", 
+                                                            Name : "${registerData.name}", 
+                                                            LastName : "${registerData.lastname}",
+                                                            UserName : "${registerData.username}", 
+                                                            Password : "${registerData.password}", 
+                                                            ConfirmedPassword : "${registerData.password}",
+                                                            Country : "${registerData.country}" }){
+                                                            error, response
+                                                        }
+                                                    }`
+                                                }
+                                            }).then((result) => {
+                                                console.log(result)
+                                                if(result.data.data.Register.error !== true ){
+                                                    this.setState({
+                                                        error: false,
+                                                        error_msg: ''
+                                                    });
+                                                    this.LinkElement.click();
+                                                }else{
+                                                    this.setState({
+                                                        error: true,
+                                                        error_msg: "La contraseña debe tener al menos un caracter alfanumerico, una letra en minuscula y una letra en mayuscula"
+                                                    });
+                                                }
+    
+                                            }, (error) => {
+                                                console.log("error register")
+                                                console.log(error);
+                                                this.setState({
+                                                    error: true,
+                                                    error_msg: "Ha ocurrido un error con el servidor. Intentelo nuevamente"
+                                                });
+                                            });
+                                        }
+                                        else{
+                                            this.setState({
+                                                error: true,
+                                                error_msg: "Por favor especifique una foto para su avatar"
+                                            });
+                                        }
+
+                                    }, (error) => {
+                                        console.log("Error image");
+                                        console.log(error);
+                                        this.setState({
+                                            error: true,
+                                            error_msg: "Ha ocurrido un error con el servidor. Intentelo nuevamente"
+                                        });
+                                    });
+
                                 }
                             }}>
                                 <p>Terminar registro</p>
                             </div>
                             <Link to={{
-                                pathname: '/',
+                                pathname: '/confirmRegistration',
                                 state: {
-                                    data: 'Data from register' 
+                                    data: this.state.email 
                                 }}}
+
                                 ref={Link => this.LinkElement = Link}>
                             </Link>
                             <div className="login_link register_link">

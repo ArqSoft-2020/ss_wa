@@ -18,12 +18,12 @@ class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userData: '',
+            userData: {},
             username: '',
             showPassword: false,
             password: '',
-            error: true,
-            error_msg: "test",
+            error: false,
+            error_msg: "",
             usernameError: false,
             passwordError: false,
         };
@@ -103,12 +103,12 @@ class Login extends Component {
         });
     }
 
-        validateData() {
+    validateData() {
         var flag = true;
         this.setState({ usernameError: false });
         this.setState({ passwordError: false });
 
-		if (this.state.username == "") {
+		if (this.state.username === "") {
 			flag = false;
 			this.setState({ usernameError: true });
 		} else {
@@ -134,7 +134,7 @@ class Login extends Component {
                 <h3 className="title">Inicia Sesion</h3>
                 <div className="error_msg" style={this.state.error ? {} : { display: 'none' }}>
                     <div className="help">
-                        <IconContext.Provider value={{ size: "1.4em ", className: 'help_icon'}}>
+                        <IconContext.Provider value={{ size: "2rem ", className: 'help_icon'}}>
                             <div>
                                 <FaExclamationCircle/>
                             </div>
@@ -197,7 +197,7 @@ class Login extends Component {
                                         query{
                                             Login(model: {
                                                     UserName: "${loginData.username}",
-                                                    Password: "${loginData.password}}"
+                                                    Password: "${loginData.password}"
                                                 }) {
                                                 error, response, token, user{ id, userName, name, lastName, email, country, picture, imageBytes, totalGames, wonGames, lostGames }
                                             }
@@ -212,7 +212,16 @@ class Login extends Component {
                                     });
                                 }
                                 else{
-                                   console.log(result.data);
+                                    //Username: galdana, password: Proyecto.123
+                                   let request_res = result.data.data.Login;
+                                   this.setState({
+                                       error: false,
+                                       error_msg: "",
+                                       userData: {
+                                           token: request_res.token,
+                                           user: request_res.user
+                                       }
+                                   });
                                    this.LinkElement.click();
                                 }
 
@@ -230,7 +239,7 @@ class Login extends Component {
                     <Link to={{
                         pathname: '/',
                         state: {
-                            data: 'Data from Login' 
+                            data: this.state.userData 
                         }}}
                         ref={Link => this.LinkElement = Link}>
                     </Link>

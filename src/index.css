@@ -31,4 +31,5 @@ bold {
 
 italic {
   font-family: 'ProductSans_italic';
+  font-weight: lighter;
 }

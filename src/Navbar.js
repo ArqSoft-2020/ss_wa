@@ -17,6 +17,7 @@ class Navbar extends Component {
 
         this.setNavbarButtons = this.setNavbarButtons.bind(this);
         this.handleToUser = this.handleToUser.bind(this);
+        this.handleToHome = this.handleToHome.bind(this);
     }
 
     componentDidMount() {
@@ -29,6 +30,10 @@ class Navbar extends Component {
 
     handleToUser() {
         this.UserLinkElement.click();
+    }
+
+    handleToHome() {
+        this.HomeLinkElement.click();
     }
 
     setNavbarButtons(){
@@ -73,7 +78,14 @@ class Navbar extends Component {
             <div className="Navbar">
                 <div className="Navbar_content">
                     <div className="logo">
-                        <a href="/"><img src={logoNavbar}></img></a> 
+                        <img alt="logo" src={logoNavbar} onClick={this.handleToHome}></img>
+                        <Link to={{
+                            pathname: '/',
+                            state: {
+                                data: this.state.userData 
+                            }}}
+                            ref={Link => this.HomeLinkElement = Link}>
+                        </Link>
                     </div>
                     {this.setNavbarButtons()}
                 </div>

@@ -460,7 +460,7 @@ class Register extends Component {
                                     console.log(registerData);
 
                                     axios({
-                                        url: 'http://ec2-3-218-84-176.compute-1.amazonaws.com:5000/graphql',
+                                        url: 'http://ec2-3-218-84-176.compute-1.amazonaws.com/graphql',
                                         method: 'post',
                                         data: {
                                             query: `

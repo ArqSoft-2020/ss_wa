@@ -10,7 +10,7 @@ import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 
 const httpLink = {
-  uri: 'http://ec2-3-210-210-169.compute-1.amazonaws.com:5000/graphql',
+  uri: 'http://ec2-3-218-84-176.compute-1.amazonaws.com/graphql',
 };
 
 const client = new ApolloClient({

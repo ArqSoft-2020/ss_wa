@@ -190,7 +190,7 @@ class Login extends Component {
                             };
                             console.log(loginData);
                             axios({
-                                url: 'http://ec2-3-218-84-176.compute-1.amazonaws.com/graphql',
+                                url: 'http://ec2-3-227-32-190.compute-1.amazonaws.com/graphql',
                                 method: 'post',
                                 data: {
                                     query: `

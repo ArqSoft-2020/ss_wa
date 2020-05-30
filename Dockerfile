@@ -1,7 +1,7 @@
 FROM mhart/alpine-node:11 AS builder
 WORKDIR /sap_web_app
 COPY . .
-RUN yarn install
+RUN yarn install --network-timeout 100000
 RUN yarn run build
 
 FROM mhart/alpine-node

@@ -5,6 +5,7 @@ import Login from './Login.js';
 import Register from './Register.js';
 import confirmRegister from './confirmRegister.js';
 import User from './User.js';
+import SOAPTest from './SOAPTest.js';
 import './App.css';
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route exact path="/Register" component={Register}/>
           <Route exact path="/confirmRegistration" component={confirmRegister}/>
           <Route exact path="/User" component={User}/>
+          <Route exact path="/SOAPTest" component={SOAPTest}/>
         </Switch>
       )}>
       </Route>

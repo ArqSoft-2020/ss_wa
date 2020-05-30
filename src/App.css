@@ -96,7 +96,7 @@
 }
 
 .navbarButtons_home {
-  width: 30%;
+  width: auto;
   height: 100%;
   display: flex;
   align-items: center;
@@ -106,8 +106,8 @@
 }
 
 .navbar_link_home {
-  margin-top: 0.5vh;
-  width: 100%;
+  margin-top: 1.4vh;
+  width: auto;
   text-align: center;
   display: flex;
   flex-direction: row;
@@ -116,6 +116,7 @@
 }
 
 .navbar_link_home a {
+  width: 150px;
   transition-property: color;
   transition-duration: 0.18s;
   text-decoration: none;

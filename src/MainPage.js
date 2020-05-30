@@ -5,6 +5,7 @@ import logoNavbar from './assets/logoNavbar.png';
 import bg_image from './assets/bg_mainPage.jpg';
 import { FiUser } from 'react-icons/fi';
 import { IconContext } from "react-icons";
+import { FaCode } from "react-icons/fa";
 import './App.css';
 
 class MainPage extends Component {
@@ -19,6 +20,7 @@ class MainPage extends Component {
         this.handleClick = this.handleClick.bind(this);
         this.setNavbarButtons = this.setNavbarButtons.bind(this);
         this.handleToUser = this.handleToUser.bind(this);
+        this.handleToSOAP = this.handleToSOAP.bind(this);
     }
 
     componentDidMount(){
@@ -39,33 +41,65 @@ class MainPage extends Component {
         this.UserLinkElement.click();
     }
 
+    handleToSOAP(){
+        this.SOAPLinkElement.click();
+    }
+
     setNavbarButtons(){
         if(this.state.userLogin){
             return(<div className="navbarButtons_home">
-                        <IconContext.Provider value={{ size: "2.5em ", className: 'Nav-icons_home' }}>
-                            <div onClick={this.handleToUser}>
-                                <FiUser/>
-                            </div>
-                            <Link to={{
-                                pathname: '/User',
-                                state: {
-                                    data: this.state.userData
-                                }}}
-                                ref={Link => this.UserLinkElement = Link}>
-                            </Link>
-                        </IconContext.Provider>
+                        <Grid container
+                            spacing={2}
+                            direction="row">
+                            <Grid item xs={6}>
+                                <IconContext.Provider value={{ size: "2.5em ", className: 'Nav-icons_home' }}>
+                                    <div onClick={this.handleToSOAP}>
+                                        <FaCode/>
+                                    </div>
+                                    <Link to={{
+                                        pathname: '/SOAPTest'}}
+                                        ref={Link => this.SOAPLinkElement = Link}>
+                                    </Link>
+                                </IconContext.Provider>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <IconContext.Provider value={{ size: "2.5em ", className: 'Nav-icons_home' }}>
+                                    <div onClick={this.handleToUser}>
+                                        <FiUser/>
+                                    </div>
+                                    <Link to={{
+                                        pathname: '/User',
+                                        state: {
+                                            data: this.state.userData
+                                        }}}
+                                        ref={Link => this.LinkElement = Link}>
+                                    </Link>
+                                </IconContext.Provider>
+                            </Grid>
+                        </Grid>
                     </div>);
         }else{
             return(<div className="navbarButtons_home">
                         <Grid container
                             spacing={2}
                             direction="row">
-                            <Grid item xs={6}>
+                            <Grid item xs={4}>
+                                <IconContext.Provider value={{ size: "2.5em ", className: 'Nav-icons_home' }}>
+                                    <div onClick={this.handleToSOAP}>
+                                        <FaCode/>
+                                    </div>
+                                    <Link to={{
+                                        pathname: '/SOAPTest'}}
+                                        ref={Link => this.SOAPLinkElement = Link}>
+                                    </Link>
+                                </IconContext.Provider>
+                            </Grid>
+                            <Grid item xs={4}>
                                 <div className="navbar_link_home">
                                     <a href="/Login"> Inicia Sesion </a>
                                 </div>
                             </Grid>
-                            <Grid item xs={6}>
+                            <Grid item xs={4}>
                                 <div className="navbar_link_home">
                                     <a href="/Register"> Registrate </a>
                                 </div>

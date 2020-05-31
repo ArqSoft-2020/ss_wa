@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from "react";
+import { preguntarPermisos } from "./firebaseConfig";
 import { Route, Switch } from 'react-router-dom'; 
 import MainPage from  './MainPage.js';
 import Login from './Login.js';
@@ -9,6 +10,9 @@ import SOAPTest from './SOAPTest.js';
 import './App.css';
 
 function App() {
+  useEffect(() => {
+        preguntarPermisos();
+    }, []);
   return (
     <div className="App">
       <Route render={({location}) => (

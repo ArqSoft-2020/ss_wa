@@ -20,7 +20,6 @@ export default function Row(props) {
             }else{
                 e.target.style.backgroundColor = props.colorSelected;
             }
-
             props.update(index, props.index, currentColor);
             
         }}
@@ -34,9 +33,18 @@ export default function Row(props) {
             e.dataTransfer.setDragImage(dragImgEl, 0, 0);
         }}
 
+        onMouseOver={e => {
+            e.target.style.opacity = 0.5;
+        }}
+
+        onMouseLeave={e => {
+            e.target.style.opacity = 1;
+        }}
+        
         onDragOver={e => {e.preventDefault()}}
 
         onDragEnter={e => {
+            e.target.style.opacity = 1;
             let currentColor = e.target.style.backgroundColor;
             if (props.colorSelected === "#e6e6e6") {
                 if ((index + props.index) % 2 === 0) {

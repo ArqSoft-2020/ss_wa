@@ -87,6 +87,7 @@
     -webkit-user-select: none;
 }
 
+
 .hide {
     transform: translateX(-9999px);
 }

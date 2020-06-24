@@ -1,0 +1,98 @@
+.Canvas {
+    text-align: center;
+    background-color: #282c34;
+    min-height: 100vh !important;
+    height: 100vh;
+    max-height: 100vh !important;
+    width: 100vw;
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Canvas .canvas_container{
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.color_picker_container{
+    width: auto;
+    height: 626px;
+    padding: 14px;
+    margin: 0px 20px;
+    border-radius: 0.5vw;
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.eraser_container,
+.eraser_container_selected {
+    width: auto;
+    height: auto;
+    margin-top: 56px;
+    padding: 2px 10px 6px 6px;
+    border-radius: 0.5vw;
+    border: 2.5px solid white;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.eraser_container_small_margin{
+    width: auto;
+    height: auto;
+    margin-top: 14px;
+    padding: 2px 10px 6px 6px;
+    border-radius: 0.5vw;
+    border: 2.5px solid white;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.eraser_container,
+.eraser_container_small_margin {
+    color: white;
+}
+
+.eraser_container_selected{
+    color: #282c34;
+    background-color: white;
+}
+
+.eraser_container:hover,
+.eraser_container_small_margin:hover{
+    background-color: white;
+    color: #282c34;
+}
+
+.eraser{
+    margin-top: 0.5vh;
+    vertical-align: middle;
+}
+
+.eraser:hover {
+    color: #282c34;
+}
+
+/* gives pixels height, width, and separation */
+.pixel {
+    height: 14px;
+    width: 14px;
+    margin: 0px;
+    -webkit-user-drag: element !important;
+    -webkit-user-select: none;
+}
+
+.hide {
+    transform: translateX(-9999px);
+}
+
+/* aligns pixels in a nice row */
+.row {
+    display: flex;
+}
+

@@ -21,6 +21,7 @@ class MainPage extends Component {
         this.setNavbarButtons = this.setNavbarButtons.bind(this);
         this.handleToUser = this.handleToUser.bind(this);
         this.handleToSOAP = this.handleToSOAP.bind(this);
+        this.handleToCanvas = this.handleToCanvas.bind(this);
     }
 
     componentDidMount(){
@@ -43,6 +44,10 @@ class MainPage extends Component {
 
     handleToSOAP(){
         this.SOAPLinkElement.click();
+    }
+
+    handleToCanvas() {
+        this.CanvasLinkElement.click();
     }
 
     setNavbarButtons(){
@@ -131,9 +136,13 @@ class MainPage extends Component {
                                 direction="row">
                                 <Grid item xs={6}>
                                     <div className="main_btn_container">
-                                        <div className="main_btn blue" onClick={() => {}}>
+                                        <div className="main_btn blue" onClick= {this.handleToCanvas}>
                                             <p>Unirse a una sala</p>
                                         </div>
+                                        <Link to={{
+                                            pathname: '/Canvas'}}
+                                            ref={Link => this.CanvasLinkElement = Link}>
+                                        </Link>
                                     </div>
                                 </Grid>
                                 <Grid item xs={6}>

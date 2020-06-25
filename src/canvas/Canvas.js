@@ -22,7 +22,7 @@ const makeArray = size => {
     return canvas;
 };
 
-function Canvas() {
+function Canvas(props) {
     // store the selected color in state
     const [colorSelected, setColorSelected] = useState("rgb(0, 0, 0)");
 
@@ -61,8 +61,8 @@ function Canvas() {
     return (
         <div className="Canvas">
             <div className="canvas_container">
-                <Grid cells={cells} update={update} colorSelected={colorSelected}/>
-                <div className="color_picker_container">
+                <Grid cells={cells} update={update} colorSelected={colorSelected} role={props.location.state.role}/>
+                <div className={props.location.state.role === "artist" ? "color_picker_container" : "hidden"}>
                     <div>
                         <CirclePicker
                             width="84px"
@@ -92,7 +92,7 @@ function Canvas() {
                                     :
                                         "eraser_container"}>
                             <IconContext.Provider value = { {
-                                    size: "2.2em ",
+                                    size: "1.8em ",
                                     className: 'eraser'
                                 } 
                             }>
@@ -110,7 +110,7 @@ function Canvas() {
 
                     <div className={"eraser_container_small_margin"}>
                             <IconContext.Provider value = { {
-                                    size: "2.2em ",
+                                    size: "1.8em ",
                                     className: 'eraser'
                                 } 
                             }>

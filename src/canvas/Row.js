@@ -10,6 +10,7 @@ export default function Row(props) {
         style={{ backgroundColor: color }}
         draggable={true}
         onMouseDown={e => {
+            e.target.style.opacity = 1;
             let currentColor = e.target.style.backgroundColor;
             if (props.colorSelected === "#e6e6e6"){
                 if ((index + props.index) % 2 === 0){
@@ -25,6 +26,7 @@ export default function Row(props) {
         }}
 
         onDragStart={e => {
+            e.target.style.opacity = 1;
             var dragImgEl = document.createElement("span");
             dragImgEl.setAttribute(
                 "style",

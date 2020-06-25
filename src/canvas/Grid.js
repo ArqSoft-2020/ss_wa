@@ -15,5 +15,5 @@ export default function Grid(props) {
       />
     );
   });
-  return <div className="grid">{grid}</div>;
+  return <div className={props.role === "artist" ? "grid": "grid_no_action"}>{grid}</div>;
 }

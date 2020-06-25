@@ -8,6 +8,7 @@ import confirmRegister from './confirmRegister.js';
 import User from './User.js';
 import SOAPTest from './SOAPTest.js';
 import './App.css';
+import Canvas from "./canvas/Canvas.js";
 
 function App() {
   useEffect(() => {
@@ -23,6 +24,7 @@ function App() {
           <Route exact path="/confirmRegistration" component={confirmRegister}/>
           <Route exact path="/User" component={User}/>
           <Route exact path="/SOAPTest" component={SOAPTest}/>
+          <Route exact path="/Canvas" component={Canvas}/>
         </Switch>
       )}>
       </Route>

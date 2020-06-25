@@ -53,7 +53,7 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
-  margin-top: 20vh;
+  margin-top: 14vh;
 }
 
 .App-link {
@@ -156,13 +156,23 @@
   justify-content: center;
 }
 
-.main_btn{
+.hidden {
+  display: none;
+  height: 0;
+}
+
+.main_btn,
+.main_btn_selected {
   width: 100%;
   height: auto;
   padding: 10px 0;
   border-radius: 5px;
   cursor: pointer;
   transition: ease-in-out all 0.18s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .main_btn:hover{
@@ -173,12 +183,97 @@
   font-size: 1.5rem;
 }
 
+.main_btn_selected {
+  cursor: initial;
+}
+
+.main_btn_selected p{
+  margin-bottom: 12px;
+}
+
 .white{
   background-color: white;
   color: var(--primary);
 }
 
+
 .blue {
   background-color: var(--primary);
   color: white;
+}
+
+.main_btn_content{
+  width: 75%;
+  height: auto;
+  margin-top: 0;
+  margin-bottom: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.main_btn_content .join_submit_btn {
+  width: 80%;
+  height: auto;
+  padding: 12px 0px;
+  margin-top: 12px;
+  border-radius: 0.5vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  color: var(--primary);
+  transition: ease-in-out all 0.18s;
+  cursor: pointer;
+}
+
+.main_btn_content .join_submit_btn:hover{
+  width: 100%;
+}
+
+.main_btn_content .join_submit_btn p{
+  font-size: 1.15rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.main_btn_content .join_cancel_btn{
+  font-size: 1rem;
+  margin: 10px 0 0 0;
+  transition: ease-in-out all 0.18s;
+  text-decoration-line: underline;
+  text-decoration-color: transparent;
+  cursor: pointer;
+}
+
+.primary_color_div{
+  color: var(--primary) !important;
+}
+
+.main_btn_content .join_cancel_btn:hover{
+  text-decoration-color: white;
+}
+
+.main_btn_content .primary_color_div .join_cancel_btn:hover {
+  text-decoration-color: var(--primary);
+}
+
+.new_room_id{
+  width: auto;
+  height: auto;
+  text-align: center;
+  color: var(--primary);
+  margin-bottom: 36px;
+}
+
+.new_room_id h1{
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin: 12px 0 5px 0;
+}
+
+.new_room_id p{
+  font-size: 1.05rem;
+  margin: 0;
 }

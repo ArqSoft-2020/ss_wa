@@ -10,6 +10,7 @@ import { withStyles, createMuiTheme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
 import './App.css';
+import './index.css';
 
 class MainPage extends Component {
 
@@ -139,10 +140,6 @@ class MainPage extends Component {
 
             }, (error) => {
                 console.log(error);
-                this.setState({
-                    error: true,
-                    error_msg: "Ha ocurrido un error con el servidor. Intentelo nuevamente"
-                });
             });
 
             this.setState({

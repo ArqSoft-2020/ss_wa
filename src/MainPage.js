@@ -124,7 +124,7 @@ class MainPage extends Component {
         if (!this.state.createBtnSelected) {
 
             axios({
-                url: 'http://ec2-3-217-93-77.compute-1.amazonaws.com:7000/graphql',
+                url: 'http://ec2-54-147-224-240.compute-1.amazonaws.com:7000/graphql',
                 method: 'post',
                 data: {
                     query: `

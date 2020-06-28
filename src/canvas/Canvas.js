@@ -32,8 +32,6 @@ function Canvas(props) {
 
     const [connected, setConnected] = useState(false);
 
-    const [erasedAll, setErasedAll] = useState(false);
-
     const updateCanvas = (data) => {
         let newColor = "rgb(" + data.color_r + ", " + data.color_g + ", " + data.color_b + ")";
         setCells(
@@ -72,7 +70,7 @@ function Canvas(props) {
     }
 
     if (connected === false){
-        var baseURL = "http://ec2-3-217-93-77.compute-1.amazonaws.com:3001/";
+        var baseURL = "http://ec2-54-147-224-240.compute-1.amazonaws.com:3001/";
         var canvasId = props.location.state.roomid;
         console.log(canvasId);
         if(props.location.state.role === "artist"){
@@ -146,7 +144,7 @@ function Canvas(props) {
     const update = (x, y, currentColor) => {
         if(x === -1 && y === -1){
             axios({
-                    url: 'http://ec2-3-217-93-77.compute-1.amazonaws.com:7000/graphql',
+                    url: 'http://ec2-54-147-224-240.compute-1.amazonaws.com:7000/graphql',
                     method: 'post',
                     data: {
                         query: `
@@ -198,7 +196,7 @@ function Canvas(props) {
             if (sentColor !== currentColor) {
                 let colorArray = sentColor.substring(4, (sentColor.length) - 1).split(", ");
                 axios({
-                    url: 'http://ec2-3-217-93-77.compute-1.amazonaws.com:7000/graphql',
+                    url: 'http://ec2-54-147-224-240.compute-1.amazonaws.com:7000/graphql',
                     method: 'post',
                     data: {
                         query: `

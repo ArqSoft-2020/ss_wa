@@ -70,7 +70,10 @@ function Canvas(props) {
     }
 
     if (connected === false){
-        var baseURL = "http://ec2-54-147-224-240.compute-1.amazonaws.com:3001/";
+        var baseURL1 = "http://ec2-54-147-224-240.compute-1.amazonaws.com:3001/";
+        var baseURL2 = "http://ec2-54-145-82-242.compute-1.amazonaws.com:3001/";
+        var baseURL3 = "http://ec2-54-166-225-173.compute-1.amazonaws.com:3001/";
+        var baseURL4 = "http://ec2-54-198-137-235.compute-1.amazonaws.com:3001/";
         var canvasId = props.location.state.roomid;
         console.log(canvasId);
         if(props.location.state.role === "artist"){
@@ -92,7 +95,7 @@ function Canvas(props) {
             //Update with historial info
             var historialArray = [];
             var client = new HttpClient();
-            client.get(baseURL + 'api/canvas/historial/' + canvasId, function (response) {
+            client.get(baseURL1 + 'api/canvas/historial/' + canvasId, function (response) {
                 response = JSON.parse(response);
                 response.drawingHistorial.drawingHistorial.forEach(element => {
                     historialArray.push(element);
@@ -120,7 +123,7 @@ function Canvas(props) {
             //Update with historial info
             var historialArray = [];
             var client = new HttpClient();
-            client.get(baseURL + 'api/canvas/historial/' + canvasId, function (response) {
+            client.get(baseURL1 + 'api/canvas/historial/' + canvasId, function (response) {
                 response = JSON.parse(response);
                 response.drawingHistorial.drawingHistorial.forEach(element => {
                     historialArray.push(element);
@@ -129,7 +132,41 @@ function Canvas(props) {
                 updateHistorial(historialArray);
             });
 
-            var source = new EventSource(baseURL + "api/canvas/update/" + canvasId);
+            //Connection with ms in node 1
+            var source = new EventSource(baseURL1 + "api/canvas/update/" + canvasId);
+            source.onmessage = function (event) {
+                var data = JSON.parse(event.data);
+                if (data.evt_type === "drawing") {
+                    updateCanvas(data);
+                }else{
+                    eraseAll(48);
+                }
+            }; 
+
+            //Connection with ms in node 2
+            var source = new EventSource(baseURL2 + "api/canvas/update/" + canvasId);
+            source.onmessage = function (event) {
+                var data = JSON.parse(event.data);
+                if (data.evt_type === "drawing") {
+                    updateCanvas(data);
+                }else{
+                    eraseAll(48);
+                }
+            }; 
+
+            //Connection with ms in node 3
+            var source = new EventSource(baseURL3 + "api/canvas/update/" + canvasId);
+            source.onmessage = function (event) {
+                var data = JSON.parse(event.data);
+                if (data.evt_type === "drawing") {
+                    updateCanvas(data);
+                }else{
+                    eraseAll(48);
+                }
+            }; 
+
+            //Connection with ms in node 4
+            var source = new EventSource(baseURL4 + "api/canvas/update/" + canvasId);
             source.onmessage = function (event) {
                 var data = JSON.parse(event.data);
                 if (data.evt_type === "drawing") {

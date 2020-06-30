@@ -210,7 +210,7 @@ class MainPage extends Component {
                                         state: {
                                             data: this.state.userData
                                         }}}
-                                        ref={Link => this.LinkElement = Link}>
+                                        ref={Link => this.UserLinkElement = Link}>
                                     </Link>
                                 </IconContext.Provider>
                             </Grid>

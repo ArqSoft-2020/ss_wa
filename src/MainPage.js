@@ -3,9 +3,8 @@ import {Link} from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import logoNavbar from './assets/logoNavbar.png';
 import bg_image from './assets/bg_mainPage.jpg';
-import { FiUser } from 'react-icons/fi';
+import { FiUser, FiLogOut, FiCode } from 'react-icons/fi';
 import { IconContext } from "react-icons";
-import { FaCode } from "react-icons/fa";
 import { withStyles, createMuiTheme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
@@ -33,6 +32,7 @@ class MainPage extends Component {
         this.handleToUser = this.handleToUser.bind(this);
         this.handleToSOAP = this.handleToSOAP.bind(this);
         this.handleToCanvas = this.handleToCanvas.bind(this);
+        this.handleLogout = this.handleLogout.bind(this);
         this.handleJoinSelected = this.handleJoinSelected.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.validateData = this.validateData.bind(this);
@@ -120,6 +120,13 @@ class MainPage extends Component {
         }
     }
 
+    handleLogout() {
+        this.setState({
+            userData: null,
+            userLogin: false,
+        });
+    }
+
     handleCreateSelected() {
         if (!this.state.createBtnSelected) {
 
@@ -189,10 +196,10 @@ class MainPage extends Component {
                         <Grid container
                             spacing={2}
                             direction="row">
-                            <Grid item xs={6}>
+                            <Grid item xs={4}>
                                 <IconContext.Provider value={{ size: "2.5em ", className: 'Nav-icons_home' }}>
                                     <div onClick={this.handleToSOAP}>
-                                        <FaCode/>
+                                        <FiCode/>
                                     </div>
                                     <Link to={{
                                         pathname: '/SOAPTest'}}
@@ -200,7 +207,7 @@ class MainPage extends Component {
                                     </Link>
                                 </IconContext.Provider>
                             </Grid>
-                            <Grid item xs={6}>
+                            <Grid item xs={4}>
                                 <IconContext.Provider value={{ size: "2.5em ", className: 'Nav-icons_home' }}>
                                     <div onClick={this.handleToUser}>
                                         <FiUser/>
@@ -214,6 +221,13 @@ class MainPage extends Component {
                                     </Link>
                                 </IconContext.Provider>
                             </Grid>
+                            <Grid item xs={4}>
+                                <IconContext.Provider value={{ size: "2.5em ", className: 'Nav-icons_home' }}>
+                                    <div onClick={this.handleLogout}>
+                                        <FiLogOut/>
+                                    </div>
+                                </IconContext.Provider>
+                            </Grid>
                         </Grid>
                     </div>);
         }else{
@@ -224,7 +238,7 @@ class MainPage extends Component {
                             <Grid item xs={4}>
                                 <IconContext.Provider value={{ size: "2.5em ", className: 'Nav-icons_home' }}>
                                     <div onClick={this.handleToSOAP}>
-                                        <FaCode/>
+                                        <FiCode/>
                                     </div>
                                     <Link to={{
                                         pathname: '/SOAPTest'}}
@@ -262,7 +276,7 @@ class MainPage extends Component {
                     </div>
                     <div className="App_content">
                         <h1>Bienvenido a Hanged Drawn</h1>
-                        <div className="main_buttons_container">
+                        <div className={this.state.userLogin ? "main_buttons_container" : "hidden"}>
                             <Grid container
                                 spacing={6}
                                 direction="row">

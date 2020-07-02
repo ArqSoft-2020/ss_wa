@@ -8,8 +8,16 @@
     overflow-x: hidden;
     overflow-y: auto;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+.Canvas .inner_content{
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
 }
 
 .Canvas .canvas_container{
@@ -19,6 +27,21 @@
     flex-direction: row;
     margin: 0 !important;
     padding: 0 !important;
+}
+
+.Canvas .Canvas_title{
+    width: 672px;
+    height: auto;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.Canvas .Canvas_title h3{
+    margin-bottom: 22px;
+    font-size: 1.25em;
 }
 
 .Canvas .canvas_container .Canvas .canvas_container .hidden{

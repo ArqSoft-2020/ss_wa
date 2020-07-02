@@ -75,7 +75,6 @@ function Canvas(props) {
         var baseURL3 = "http://ec2-54-166-225-173.compute-1.amazonaws.com:3001/";
         var baseURL4 = "http://ec2-54-198-137-235.compute-1.amazonaws.com:3001/";
         var canvasId = props.location.state.roomid;
-        console.log(canvasId);
         if(props.location.state.role === "artist"){
             //Class created to support the get request to update the drawing historial
             var HttpClient = function () {
@@ -280,72 +279,78 @@ function Canvas(props) {
 
     return (
         <div className="Canvas">
-            <div className="canvas_container">
-                <Grid cells={cells} update={update} colorSelected={colorSelected} role={props.location.state.role}/>
-                <div className={props.location.state.role === "artist" ? "color_picker_container" : "hidden"}>
-                    <div>
-                        <CirclePicker
-                            width="84px"
-                            colors = {
-                                ["#C62828", "#f44336",
-                                 "#FF6F00", "#e91e63",
-                                 "#9c27b0", "#673ab7",
-                                 "#3f51b5", "#2196f3", 
-                                 "#03a9f4", "#00bcd4", 
-                                 "#009688", "#4caf50", 
-                                 "#8bc34a", "#cddc39", 
-                                 "#ffeb3b", "#ffc107", 
-                                 "#ffd9c2", "#795548",
-                                 "#3E2723", "#607d8b",
-                                 "#000000", "#FFFFFF"]
-                            }
-                            color={colorSelected}
-                            onChangeComplete={color => {
-                                setColorSelected(
-                                    "rgb(" + color.rgb.r + ", " + color.rgb.g + ", " + color.rgb.b + ")"
-                                );
-                            }}
-                        />
-                    </div>
-                    <div className={colorSelected === "#e6e6e6" ?
-                                        "eraser_container_selected"
-                                    :
-                                        "eraser_container"}>
-                            <IconContext.Provider value = { {
-                                    size: "1.8em ",
-                                    className: 'eraser'
-                                } 
-                            }>
-                            <div onClick={() => {
-                                if(colorSelected !== "#e6e6e6"){
-                                    setColorSelected("#e6e6e6");
-                                }else{
-                                    setColorSelected("rgb(0, 0, 0)");
+            <div className="inner_content">
+                <div className="Canvas_title">
+                    <h3><bold>Room ID: </bold>&nbsp;</h3>
+                    <p>{props.location.state.roomid}</p>
+                </div>
+                <div className="canvas_container">
+                    <Grid cells={cells} update={update} colorSelected={colorSelected} role={props.location.state.role}/>
+                    <div className={props.location.state.role === "artist" ? "color_picker_container" : "hidden"}>
+                        <div>
+                            <CirclePicker
+                                width="84px"
+                                colors = {
+                                    ["#C62828", "#f44336",
+                                    "#FF6F00", "#e91e63",
+                                    "#9c27b0", "#673ab7",
+                                    "#3f51b5", "#2196f3", 
+                                    "#03a9f4", "#00bcd4", 
+                                    "#009688", "#4caf50", 
+                                    "#8bc34a", "#cddc39", 
+                                    "#ffeb3b", "#ffc107", 
+                                    "#ffd9c2", "#795548",
+                                    "#3E2723", "#607d8b",
+                                    "#000000", "#FFFFFF"]
                                 }
-                            }}>
-                                <FaEraser/>
-                            </div>
-                        </IconContext.Provider>
-                    </div>
-
-                    <div className={"eraser_container_small_margin"}>
-                            <IconContext.Provider value = { {
-                                    size: "1.8em ",
-                                    className: 'eraser'
-                                } 
-                            }>
-                                <div 
-                                    onClick ={async () => {
-                                        await cleanCanvas();
-                                        setCells(makeArray(48));
+                                color={colorSelected}
+                                onChangeComplete={color => {
+                                    setColorSelected(
+                                        "rgb(" + color.rgb.r + ", " + color.rgb.g + ", " + color.rgb.b + ")"
+                                    );
+                                }}
+                            />
+                        </div>
+                        <div className={colorSelected === "#e6e6e6" ?
+                                            "eraser_container_selected"
+                                        :
+                                            "eraser_container"}>
+                                <IconContext.Provider value = { {
+                                        size: "1.8em ",
+                                        className: 'eraser'
+                                    } 
+                                }>
+                                <div onClick={() => {
+                                    if(colorSelected !== "#e6e6e6"){
+                                        setColorSelected("#e6e6e6");
+                                    }else{
                                         setColorSelected("rgb(0, 0, 0)");
-                                        update(-1, -1, colorSelected);
-                                    }}
-
-                                >
-                                    <FaFile/>
+                                    }
+                                }}>
+                                    <FaEraser/>
                                 </div>
                             </IconContext.Provider>
+                        </div>
+
+                        <div className={"eraser_container_small_margin"}>
+                                <IconContext.Provider value = { {
+                                        size: "1.8em ",
+                                        className: 'eraser'
+                                    } 
+                                }>
+                                    <div 
+                                        onClick ={async () => {
+                                            await cleanCanvas();
+                                            setCells(makeArray(48));
+                                            setColorSelected("rgb(0, 0, 0)");
+                                            update(-1, -1, colorSelected);
+                                        }}
+
+                                    >
+                                        <FaFile/>
+                                    </div>
+                                </IconContext.Provider>
+                        </div>
                     </div>
                 </div>
             </div>
